@@ -1,5 +1,5 @@
-import React from 'react';
-import { Code2, Smartphone, Globe, Server, Database, Brain } from 'lucide-react';
+
+import { Code2, Smartphone, Globe, Database } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const technologies = [
@@ -23,14 +23,14 @@ const technologies = [
     name: 'Bases de Datos',
     skills: ['Firebase'],
     description: 'Gestión y optimización de bases de datos NoSQL.',
-    level: '88%'
+    level: '95%'
   },
   {
     icon: <Globe className="w-12 h-12" />,
     name: 'CMS & E-commerce',
     skills: ['WordPress', 'WooCommerce', 'Shopify'],
     description: 'Desarrollo y personalización de sitios web comerciales.',
-    level: '80%'
+    level: '90%'
   },
   
 ];

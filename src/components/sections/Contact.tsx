@@ -1,11 +1,11 @@
-import { FaGithub } from 'react-icons/fa';
-import { Linkedin, Mail } from 'lucide-react';
+
+import { Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const socialLinks = [
-  { icon: <FaGithub className="w-6 h-6" />, label: "GitHub", URL:'https://github.com/Michellemoreno04' },
-  { icon: <Linkedin className="w-6 h-6" />, label: "LinkedIn", URL:'#' },
-  { icon: <Mail className="w-6 h-6" />, label: "Email", URL:'mailto:morenov.dev@gmail.com' }
+ 
+  { icon: <Mail className="w-6 h-6" />, label: "Email", URL:'mailto:morenov.dev@gmail.com' },
+  
 ];
 
 // ... resto del código existente ...
@@ -44,8 +44,8 @@ export default function Contact() {
             <motion.a
               key={index}
               href={social.URL}
-              target="_blank"
-              rel="noopener noreferrer" // Asegura que el enlace se abra en una nueva pestaña
+              aria-label={social.label}
+              title={social.label}
               variants={fadeIn}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

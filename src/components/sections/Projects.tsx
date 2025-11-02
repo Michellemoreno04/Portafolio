@@ -1,26 +1,34 @@
 
 import { ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import quizbibleIncon from '../../assets/image/quibibleIncon.png'
+
+const MotionLink = motion(Link);
 
 const projects = [
   {
-    title: "E-commerce Platform",
-    description: "Plataforma de comercio electrónico completa con gestión de productos, carrito de compras y pasarela de pagos.",
-    tech: ["React", "Node.js", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?auto=format&fit=crop&q=80&w=500"
+    title: "Aplicacion móvil",
+    description: "Aplicacion móvil para aprender mas sobre la biblia de forma dinamica y divertida.",
+    //tech: ["React", "Node.js", "MongoDB"],
+    image: `${quizbibleIncon}`,
+    url:'/app-mobile',
+    internal: true
   },
   {
-    title: "E-commerce Platform",
-    description: "Plataforma de comercio electrónico completa con gestión de productos, carrito de compras y pasarela de pagos.",
-    tech: ["React", "Node.js", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?auto=format&fit=crop&q=80&w=500"
+    title: "Web para consultas",
+    description: "Nichos para salud y medicina con consultas y servicio al cliente.",
+    //tech: ["React", "Node.js", "MongoDB"],
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJgBHo_2e24rEgWc_AoD8WRAIX7rbtxGBjG_oH5YE7Ztcfd3DHXWRfVe34-DPYYZcAyKo&usqp=CAU",
+    url:'https://amigodoctor.com/inicio'
   },
 
   {
-    title: "E-commerce Platform",
-    description: "Plataforma de comercio electrónico completa con gestión de productos, carrito de compras y pasarela de pagos.",
-    tech: ["React", "Node.js", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?auto=format&fit=crop&q=80&w=500"
+    title: "Restaurante",
+    description: "Restaurante con platos especiales donde se encuentra el sabor de paraiso. ",
+    //tech: ["React", "Node.js", "MongoDB"],
+    image: "https://thebestofdr.do/wp-content/uploads/2025/02/restaurantes-carne-santo-domingo-1000x630.jpg",
+    url:'https://www.sweetbasilvail.com'
   },
   
  
@@ -77,21 +85,31 @@ export default function Projects() {
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, i) => (
+                  {/* {project.tech.map((tech, i) => (
                     <span key={i} className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm">
                       {tech}
                     </span>
-                  ))}
+                  ))} */}
                 </div>
-                <button >
-                <motion.a 
-                  href="#"
-                  whileHover={{ x: 10 }}
-                  className="inline-flex items-center text-blue-500 hover:text-blue-400"
-                >
-                  Visitar <ChevronRight className="w-4 h-4 ml-1" />
-                </motion.a>
-                </button>
+                {project.internal ? (
+                  <MotionLink
+                    to={project.url}
+                    whileHover={{ x: 10 }}
+                    className="inline-flex items-center text-blue-500 hover:text-blue-400"
+                  >
+                    Visitar <ChevronRight className="w-4 h-4 ml-1" />
+                  </MotionLink>
+                ) : (
+                  <motion.a 
+                    href={project.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    whileHover={{ x: 10 }}
+                    className="inline-flex items-center text-blue-500 hover:text-blue-400"
+                  >
+                    Visitar <ChevronRight className="w-4 h-4 ml-1" />
+                  </motion.a>
+                )}
               </div>
             </motion.div>
           ))}

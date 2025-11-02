@@ -24,7 +24,7 @@ export default function Header() {
         >
           <a href="#home" className="hover:text-blue-500 transition-colors">Inicio</a>
           <a href="#skills" className="hover:text-blue-500 transition-colors">Tecnologías</a>
-         {/* <a href="#projects" className="hover:text-blue-500 transition-colors">Proyectos</a>*/}
+          <a href="#projects" className="hover:text-blue-500 transition-colors">Proyectos</a>
           <a href="#contact" className="hover:text-blue-500 transition-colors">Contacto</a>
         </motion.div>
 
@@ -58,13 +58,13 @@ export default function Header() {
               >
                 Tecnologías
               </a>
-             {/* <a 
+             <a 
                 href="#projects" 
                 className="hover:text-blue-500 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Proyectos
-              </a>*/}
+              </a>
               <a 
                 href="#contact" 
                 className="hover:text-blue-500 transition-colors"
