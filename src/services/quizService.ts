@@ -1,12 +1,12 @@
-import { 
-  collection, 
-  addDoc, 
-  updateDoc, 
-  doc, 
-  getDocs, 
-  query, 
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  getDocs,
+  query,
   where,
-  serverTimestamp 
+  serverTimestamp
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -19,7 +19,7 @@ export interface UsuarioWeb {
   intentos: number;
   descargadoApp: boolean;
   plataformaDescarga?: 'ios' | 'android' | null;
-  
+
 }
 
 export interface ResultadoQuiz {
@@ -27,7 +27,7 @@ export interface ResultadoQuiz {
   fecha: any;
   puntuacion: number;
   tiempoTotal: number;
- 
+
 }
 
 // Generar ID único para el usuario
@@ -57,19 +57,16 @@ export const marcarQuizCompletado = (): void => {
 
 // Guardar resultado del quiz en Firebase
 export const guardarResultadoQuiz = async (
-  puntuacion: number,
-  
-  tiempoTotal: number
+  puntuacion: number
 ): Promise<void> => {
   try {
     const userId = obtenerIdUsuario();
-    const fecha = new Date();
-    
+
     // Crear documento de usuario si no existe
     const usuarioRef = collection(db, 'usuarios_web');
     const q = query(usuarioRef, where('id', '==', userId));
     const querySnapshot = await getDocs(q);
-    
+
     if (querySnapshot.empty) {
       // Usuario nuevo - crear documento
       const nuevoUsuario: UsuarioWeb = {
@@ -80,9 +77,9 @@ export const guardarResultadoQuiz = async (
         puntuacionMaxima: puntuacion,
         intentos: 1,
         descargadoApp: false,
-       
+
       };
-      
+
       await addDoc(usuarioRef, nuevoUsuario);
     } else {
       // Usuario existente - actualizar documento
@@ -92,13 +89,13 @@ export const guardarResultadoQuiz = async (
         quizCompletado: true,
         intentos: querySnapshot.docs[0].data().intentos + 1,
         puntuacionMaxima: Math.max(querySnapshot.docs[0].data().puntuacionMaxima || 0, puntuacion),
-       
+
       });
     }
-    
+
     // Marcar como completado en localStorage
     marcarQuizCompletado();
-    
+
   } catch (error) {
     console.error('Error al guardar resultado del quiz:', error);
     // Aún marcamos como completado en localStorage para evitar mostrar el modal
@@ -113,19 +110,34 @@ export const registrarDescargaApp = async (plataforma: 'ios' | 'android'): Promi
     const usuarioRef = collection(db, 'usuarios_web');
     const q = query(usuarioRef, where('id', '==', userId));
     const querySnapshot = await getDocs(q);
-    
+
     if (!querySnapshot.empty) {
+      // Documento ya existe, actualizarlo
       const docRef = doc(db, 'usuarios_web', querySnapshot.docs[0].id);
       await updateDoc(docRef, {
         descargadoApp: true,
         plataformaDescarga: plataforma,
         ultimaVez: serverTimestamp()
       });
+    } else {
+      // Documento no existe, crearlo
+      const nuevoUsuario: UsuarioWeb = {
+        id: userId,
+        fechaPrimeraVez: serverTimestamp(),
+        ultimaVez: serverTimestamp(),
+        quizCompletado: false,
+        puntuacionMaxima: 0,
+        intentos: 0,
+        descargadoApp: true,
+        plataformaDescarga: plataforma
+      };
+
+      await addDoc(usuarioRef, nuevoUsuario);
     }
-    
+    console.log('Descarga de app registrada');
     // Guardar en localStorage también
     localStorage.setItem('quizbible_app_descargada', 'true');
-    
+
   } catch (error) {
     console.error('Error al registrar descarga de la app:', error);
     // Aún guardamos en localStorage

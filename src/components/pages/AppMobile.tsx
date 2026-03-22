@@ -3,7 +3,7 @@ import { FaApple, FaGooglePlay } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import flayer from '../../assets/image/quizbible-flayer.png';
 import Quiz from '../miniQuiz/quiz';
-import { verificarQuizCompletado } from '../../services/quizService';
+import { verificarQuizCompletado, registrarDescargaApp } from '../../services/quizService';
 
 export default function AppMobile() {
   const [mostrarQuiz, setMostrarQuiz] = useState(false);
@@ -20,6 +20,11 @@ export default function AppMobile() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  const manejarDescarga = async (plataforma: 'ios' | 'android') => {
+    await registrarDescargaApp(plataforma);
+    console.log(`Descarga de ${plataforma} registrada`);
+  };
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -40,6 +45,7 @@ export default function AppMobile() {
                 href="https://apps.apple.com/do/app/quizbible/id6745747418?|=en-GB"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => manejarDescarga('ios')}
                 className="w-64 inline-flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-white text-gray-900 hover:bg-gray-100 transition-colors"
               >
                 <FaApple className="text-2xl" />
@@ -52,6 +58,7 @@ export default function AppMobile() {
                 href="https://play.google.com/store/apps/details?id=com.moreno.dev.QuizBible"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => manejarDescarga('android')}
                 className="w-64 inline-flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-blue-500 text-white hover:bg-green-400 transition-colors"
               >
                 <FaGooglePlay className="text-2xl" />
@@ -114,9 +121,45 @@ QuizBible es una app móvil cristiana que combina devocionales diarios, versícu
         <li>Accesibilidad: Audio, interfaz sencilla y guía visual para facilitar el estudio a cualquier ritmo.</li>
         </ul>
       </div>
-      </div>
 
-     
+      {/* Botones de descarga inferiores */}
+      <motion.div 
+        {...fadeIn}
+        className="mt-16 flex flex-col items-center border-t border-white/10 pt-12 pb-8"
+      >
+        <h2 className="text-2xl font-bold mb-8 text-center text-white">¡Comienza tu viaje espiritual hoy!</h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://apps.apple.com/do/app/quizbible/id6745747418?|=en-GB"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => manejarDescarga('ios')}
+            className="w-64 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-white text-gray-900 hover:bg-gray-100 transition-all hover:scale-105"
+          >
+            <FaApple className="text-2xl" />
+            <div className="text-left">
+              <div className="text-xs leading-none">Descargar en</div>
+              <div className="text-sm font-semibold">App Store (iOS)</div>
+            </div>
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.moreno.dev.QuizBible"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => manejarDescarga('android')}
+            className="w-64 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-blue-500 text-white hover:bg-green-400 transition-all hover:scale-105"
+          >
+            <FaGooglePlay className="text-2xl" />
+            <div className="text-left">
+              <div className="text-xs leading-none">Disponible en</div>
+              <div className="text-sm font-semibold">Google Play (Android)</div>
+            </div>
+          </a>
+        </div>
+        <p className="text-gray-400 mt-6 text-sm">Disponible gratis para iOS y Android</p>
+      </motion.div>
+
+      </div>
     </section>
 
       {/* Modal del Quiz - Solo se muestra si no se ha completado antes */}
